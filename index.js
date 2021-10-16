@@ -1,3 +1,4 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const Axios = require('axios');
 const env = require('./env.json')
 const AmiClient = require('asterisk-ami-client');
