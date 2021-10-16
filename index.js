@@ -38,25 +38,27 @@ let handleEvent = async function (event) {
 
 let bridgeEvent = async function (bridgeEvent) {
     if (bridgeEvent['Bridgestate'] === 'Link') {
+        console.log(JSON.stringify(bridgeEvent))
         let phoneNumber = bridgeEvent['CallerID1']
         let uniqueId = bridgeEvent['Uniqueid1']
         let destination = bridgeEvent['CallerID2']
         let result = await Axios.get(`${env.callUrl}?destination=${destination}&callerId=${phoneNumber}&callId=${uniqueId}`)
-        console.log(result.status)
+        if (result.status === 200)
+            console.log('sent!')
     }
 }
 
 let connect = function () {
     client.connect(username, secret, {
-            host: server,
-            port: port
-        })
+        host: server,
+        port: port
+    })
         .then(amiConnection => {
 
             client
                 .on('connect', () => console.log('connect'))
                 .on('event', event => handleEvent(event))
-                .on('data', chunk => {})
+                .on('data', chunk => { })
                 .on('response', response => console.log(response))
                 .on('disconnect', () => console.log('disconnect'))
                 .on('reconnection', () => console.log('reconnection'))
